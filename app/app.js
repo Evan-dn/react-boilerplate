@@ -16,6 +16,13 @@ import { ConnectedRouter } from 'connected-react-router';
 import FontFaceObserver from 'fontfaceobserver';
 import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
+// import CSS baseline from material ui
+import CssBaseline from '@material-ui/core/CssBaseline';
+// import theme from material ui
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+// import colors from material ui
+import red from '@material-ui/core/colors/red';
+import pink from '@material-ui/core/colors/pink';
 
 // Import root app
 import App from 'containers/App';
@@ -31,6 +38,16 @@ import configureStore from './configureStore';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
+// cration du theme
+const theme = createMuiTheme({
+  palette: {
+    primary: red,
+    secondary: pink,
+  },
+  status: {
+    danger: 'red',
+  },
+});
 
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)
@@ -48,13 +65,18 @@ const MOUNT_NODE = document.getElementById('app');
 
 const render = messages => {
   ReactDOM.render(
-    <Provider store={store}>
-      <LanguageProvider messages={messages}>
-        <ConnectedRouter history={history}>
-          <App />
-        </ConnectedRouter>
-      </LanguageProvider>
-    </Provider>,
+    <div>
+      <CssBaseline />
+      <Provider store={store}>
+        <LanguageProvider messages={messages}>
+          <ConnectedRouter history={history}>
+            <ThemeProvider theme={theme}>
+              <App />
+            </ThemeProvider>
+          </ConnectedRouter>
+        </LanguageProvider>
+      </Provider>
+    </div>,
     MOUNT_NODE,
   );
 };
