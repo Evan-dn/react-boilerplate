@@ -28,7 +28,7 @@ const rows = [
 
 export default function SimpleTable() {
   const classes = useStyles();
-
+  // console.log("simple table : ", props.persos)
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
