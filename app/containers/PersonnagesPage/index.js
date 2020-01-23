@@ -12,6 +12,7 @@ import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import messages from './messages';
 import TablePerso from './TablePerso';
+import CardPerso from './CardPerso';
 
 // on assigne des valeurs aux headers pour être utilisé par fetch
 const myheader = new Headers({
@@ -37,9 +38,13 @@ export default class PersonnagesPage extends React.Component {
     this.setState({ searchName: event.target.value });
   };
 
+  handleSearch = () => {
+    this.handelCallApiPerso(this.state.searchName);
+  };
+
   //  une fois que toute la page est chargée (ComponentDidMount), j'appelle la fonction qui fetch l'url
   componentDidMount() {
-    this.handelCallApiPerso('spider');
+    this.handelCallApiPerso(this.state.searchName);
   }
 
   handelCallApiPerso = name => {
@@ -68,7 +73,7 @@ export default class PersonnagesPage extends React.Component {
           value={this.state.searchName}
           onChange={this.handleChange}
         />
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={this.handleSearch}>
           {' '}
           Rechercher{' '}
         </Button>
@@ -80,6 +85,12 @@ export default class PersonnagesPage extends React.Component {
         />
         {/* on passe perso au composant enfant comme props qui est le state du composant parent  */}
         <TablePerso persos={this.state.persos} />
+
+        {this.state.persos[0] ? (
+          <CardPerso perso={this.state.persos[0]} />
+        ) : (
+          <div />
+        )}
       </div>
     );
   }
